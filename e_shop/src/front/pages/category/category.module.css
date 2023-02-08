@@ -1,0 +1,43 @@
+.CardContainer {
+  gap: 16px;
+  display: grid;
+  margin-top: 20px;
+  grid-template-columns: repeat(4, 1fr);
+}
+.Card {
+  width: 200px;
+  height: 300px;
+  background-color: #ffffff;
+}
+.Card:hover {
+  transform: scale(1.02) perspective(0px);
+  box-shadow: 0 10px 10px rgba(195, 193, 193, 0.7);
+}
+.CardImg {
+  width: 200px;
+  height: 250px;
+}
+.CardText {
+  width: 200px;
+  height: 50px;
+}
+.CardText h1 {
+  font-size: 12px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+.CardText h5 {
+  height: 16px;
+  margin: 0px;
+  color: rgb(109, 113, 117);
+  margin-left: 10px;
+  font-size: 11px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.CardText p {
+  font-size: 12px;
+  margin-left: 10px;
+  font-weight: bold;
+}
