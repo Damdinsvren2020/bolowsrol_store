@@ -7,9 +7,10 @@ const bp = require("body-parser");
 const multer = require("multer");
 const env = require("dotenv");
 const bannerRouter = require("./routes/banner");
-const categoryRouter = require("./routes/category");
 const userRouter = require("./routes/user");
 const brandRouter = require("./routes/brand");
+const categoryRouter = require("./routes/category");
+const subcategoryRouter = require("./routes/subcategory");
 env.config();
 const imageFileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -76,9 +77,10 @@ app.use(
 );
 
 app.use(bannerRouter);
-app.use(categoryRouter);
 app.use(userRouter);
 app.use(brandRouter);
+app.use(categoryRouter);
+app.use(subcategoryRouter);
 mongoose.connect(process.env.mongourl, () => {
   console.log("Connected to database");
   app.listen(process.env.dev, () => {

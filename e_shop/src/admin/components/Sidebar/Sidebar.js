@@ -1,5 +1,7 @@
 import React from "react";
-import { AiOutlineDashboard, AiFillFileImage } from "react-icons/ai";
+import { AiOutlineDashboard } from "react-icons/ai";
+import { BsTag, BsFillGridFill, BsBox, BsCardImage } from "react-icons/bs";
+
 import { Link } from "react-router-dom";
 import "./Sidebar.css";
 const Sidebar = () => {
@@ -19,7 +21,7 @@ const Sidebar = () => {
         <div className="Sidebar_MenuButton">
           <span className="Sidebar_MenuSpan">
             <div className="Siderbar_Menu_span_icon">
-              <AiFillFileImage />
+              <BsCardImage />
             </div>
             <span className="Sidebar_Menu_list">
               <Link to={"/admin/slider"}>Slider</Link>
@@ -29,17 +31,7 @@ const Sidebar = () => {
         <div className="Sidebar_MenuButton">
           <span className="Sidebar_MenuSpan">
             <div className="Siderbar_Menu_span_icon">
-              <AiFillFileImage />
-            </div>
-            <span className="Sidebar_Menu_list">
-              <Link to={"/admin/category"}>Ангилал</Link>
-            </span>
-          </span>
-        </div>
-        <div className="Sidebar_MenuButton">
-          <span className="Sidebar_MenuSpan">
-            <div className="Siderbar_Menu_span_icon">
-              <AiFillFileImage />
+              <BsTag />
             </div>
             <span className="Sidebar_Menu_list">
               <Link to={"/admin/brand"}>Брэнд</Link>
@@ -49,13 +41,34 @@ const Sidebar = () => {
         <div className="Sidebar_MenuButton">
           <span className="Sidebar_MenuSpan">
             <div className="Siderbar_Menu_span_icon">
-              <AiFillFileImage />
+              <BsFillGridFill />
+            </div>
+            <span className="Sidebar_Menu_list">
+              <Link to={"/admin/category"}>Категори</Link>
+            </span>
+          </span>
+        </div>
+        <div className="Sidebar_MenuButton">
+          <span className="Sidebar_MenuSpan">
+            <div className="Siderbar_Menu_span_icon">
+              <BsFillGridFill />
+            </div>
+            <span className="Sidebar_Menu_list">
+              <Link to={"/admin/subcategory"}>Дэд Категори</Link>
+            </span>
+          </span>
+        </div>
+
+        {/* <div className="Sidebar_MenuButton">
+          <span className="Sidebar_MenuSpan">
+            <div className="Siderbar_Menu_span_icon">
+              <BsBox />
             </div>
             <span className="Sidebar_Menu_list">
               <Link to={"/admin/product"}>Бүтээгдхүүн</Link>
             </span>
           </span>
-        </div>
+        </div> */}
       </nav>
     </div>
   );

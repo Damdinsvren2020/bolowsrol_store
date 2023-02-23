@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
+import "./homeslider.css";
 import { CDNURL, url } from "../../../../utils/url";
 import axios from "axios";
 const HomeSlider = () => {
@@ -9,11 +10,10 @@ const HomeSlider = () => {
     const getSlider = async () => {
       const { data } = await axios.get(`${url}/banner`);
       setSlider(data.data);
-      console.log(data.data);
     };
     getSlider();
   }, [refreshKey]);
-  const settings = {
+  var settings = {
     dots: true,
     infinite: false,
     speed: 500,

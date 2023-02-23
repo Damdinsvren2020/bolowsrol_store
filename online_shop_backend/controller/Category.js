@@ -1,8 +1,8 @@
 const Category = require("../models/Category");
-const AppError = require("../utils/Error");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../middleware/myError");
 
-exports.getCategory = catchAsync(async (req, res, next) => {
+exports.getCategory = catchAsync(async (req, res) => {
   const category = await Category.find();
   res.status(200).json({
     success: true,
@@ -12,58 +12,56 @@ exports.getCategory = catchAsync(async (req, res, next) => {
 
 exports.createCategory = catchAsync(async (req, res, next) => {
   try {
-    const { name, description, slug } = req.body;
+    const { name, description } = req.body;
     const { avatar } = req.files;
-    const category_image = new Category({
+    const Category_image = new Category({
       avatar: avatar[0].path,
       name: name,
       description: description,
-      slug: slug,
     });
-    const category = await category_image.save();
+    const category = await Category_image.save();
     res.status(200).json({
       success: true,
       data: category,
     });
   } catch (err) {
+    next(err);
     console.log(err);
   }
 });
 
-exports.editCategory = catchAsync(async (req, res, next) => {
+exports.editCategory = catchAsync(async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, slug, newAvatar, avatarOld } = req.body;
-    const category = await Category.findById(id);
+    const { name, description, newavatar, avatarOld } = req.body;
+    const { avatar } = req.files;
+    const category_images = await Category.findByIdAndUpdate(id);
     if (name) {
-      category.name;
+      category_images.name = name;
     }
     if (description) {
-      category.description;
+      category_images.description = description;
     }
-    if (slug) {
-      category.slug;
-    }
-    if (newAvatar) {
-      category.avatar = photo[0].path;
+    if (newavatar) {
+      category_images.avatar = avatar[0].path;
     } else {
-      category.avatar = avatarOld;
+      category_images.avatar = avatarOld;
     }
-    const saveCategory_image = await Category.save();
-    if (saveCategory_image) {
+    const saveCategory_images = await category_images.save();
+    if (saveCategory_images) {
       res.json({
         success: true,
       });
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     res.json({
-      success: true,
+      success: false,
     });
   }
 });
 
-exports.deleteCategory = catchAsync(async (req, res, next) => {
+exports.deleteCategory = catchAsync(async (req, res) => {
   const { id } = req.params;
   const category = await Category.findByIdAndDelete(id);
   if (!category) {

@@ -1,0 +1,14 @@
+.SignUpContainer {
+  max-width: 1200px;
+  margin: auto;
+}
+.Singup {
+  width: 1200px;
+}
+.SignupCardContainer {
+  margin: auto;
+  margin-top: 200px;
+  width: 30%;
+  height: 250px;
+  padding: 10px;
+}

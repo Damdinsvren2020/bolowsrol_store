@@ -33,6 +33,7 @@
 }
 .Sidebar_Menu_list {
   width: 100%;
+  margin-top: -5px;
 }
 .Sidebar_MenuSpan a {
   text-decoration: none;

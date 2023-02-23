@@ -34,7 +34,6 @@ const Header = () => {
               </div>
             </div>
           </div>
-          <div className="header-2"></div>
         </div>
       </div>
     </div>

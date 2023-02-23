@@ -19,7 +19,7 @@ const Detail = () => {
             <Product_detail />
           </div>
           <div className="w-[600px]">
-            <div>
+            <div className="h-full top-0 sticky">
               <Single_Detail />
             </div>
           </div>

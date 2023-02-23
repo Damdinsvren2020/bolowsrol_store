@@ -9,7 +9,6 @@ exports.getBanner = catchAsync(async (req, res) => {
     data: banner,
   });
 });
-
 exports.createBanner = catchAsync(async (req, res, next) => {
   try {
     const { name, orders } = req.body;

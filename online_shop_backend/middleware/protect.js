@@ -1,4 +1,3 @@
-const Admin = require("../models/Admin");
 const EshopError = require("./myError");
 const catchAsync = require("../utils/catchAsync");
 const jwt = require("jsonwebtoken");

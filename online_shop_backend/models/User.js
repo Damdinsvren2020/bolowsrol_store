@@ -5,20 +5,28 @@ const jwt = require("jsonwebtoken");
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
+    required: [true, "Хэрэглэгчийн нэрийг оруулна уу"],
   },
   email: {
     type: String,
+    required: [true, "Хэрэглэгчийн имэйл хаягийг оруулж өгнө үү"],
     unique: true,
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       "Имэйл хаяг буруу байна.",
     ],
   },
+
   role: {
     type: String,
     required: [true, "Хэрэглэгчийн эрхийг оруулна уу"],
     enum: ["user", "admin"],
     default: "user",
+  },
+  wallet: {
+    type: Number,
+    required: false,
+    default: 0,
   },
   password: {
     type: String,
@@ -26,6 +34,16 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Нууц үгээ оруулна уу"],
     select: false,
   },
+  wishlist: {
+    type: mongoose.Types.ObjectId,
+    ref: "wishlist",
+  },
+  coupon: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Coupon",
+    },
+  ],
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   createdAt: {

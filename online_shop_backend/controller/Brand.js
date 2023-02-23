@@ -10,15 +10,16 @@ exports.getBrand = catchAsync(async (req, res) => {
   });
 });
 
-exports.createBrand = catchAsync(async (req, res, next) => {
+exports.createBrand = async (req, res, next) => {
   try {
-    const { brand_name } = req.body;
+    const { name, description } = req.body;
     const { avatar } = req.files;
-    const brand_image = new Brand({
+    const Brand_image = new Brand({
       avatar: avatar[0].path,
-      brand_name: brand_name,
+      name: name,
+      description: description,
     });
-    const brand = await brand_image.save();
+    const brand = await Brand_image.save();
     res.status(200).json({
       success: true,
       data: brand,
@@ -27,23 +28,28 @@ exports.createBrand = catchAsync(async (req, res, next) => {
     next(err);
     console.log(err);
   }
-});
+};
 
 exports.editBrand = catchAsync(async (req, res) => {
   try {
     const { id } = req.params;
-    const { brand_name, newAvatar, avatarOld } = req.body;
-    const brand = await Brand.findById(id);
-    if (brand_name) {
-      brand.brand_name;
+    const { name, description, newavatar, avatarOld } = req.body;
+    const { avatar } = req.files;
+    const banner_images = await Brand.findByIdAndUpdate(id);
+    if (name) {
+      banner_images.name = name;
     }
-    if (newAvatar) {
-      brand.avatar = photo[0].path;
+    if (newavatar) {
+      banner_images.avatar = avatar[0].path;
     } else {
-      brand.avatar = avatarOld;
+      banner_images.avatar = avatarOld;
     }
-    const saveBrand_image = await Brand.save();
-    if (saveBrand_image) {
+    if (description) {
+      banner_images.description = description;
+    }
+    const saveBanner_images = await banner_images.save();
+
+    if (saveBanner_images) {
       res.json({
         success: true,
       });
@@ -51,7 +57,7 @@ exports.editBrand = catchAsync(async (req, res) => {
   } catch (error) {
     console.log(error);
     res.json({
-      success: true,
+      success: false,
     });
   }
 });

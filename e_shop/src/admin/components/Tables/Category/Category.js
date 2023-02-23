@@ -1,113 +1,74 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "@mantine/core";
-import axios from "axios";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
 import { CDNURL, url } from "../../../../utils/url";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Category_Table = () => {
   const [opened, setOpened] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [category, setCategory] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [slug, setSlug] = useState("");
   const [image, setImage] = useState(false);
   const [newImage, setNewImage] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [categoryId, setCategoryId] = useState("");
-  const [edit, setEdit] = useState(false);
   useEffect(() => {
-    const getSlider = async () => {
+    const getCategory = async () => {
       const { data } = await axios.get(`${url}/category`);
       setCategory(data.data);
     };
-    getSlider();
+    getCategory();
   }, [refreshKey]);
-  async function createCategory(event) {
-    event.preventDefault();
+  const createCategory = async () => {
     let formdata = new FormData();
     formdata.append("name", name);
     formdata.append("description", description);
-    formdata.append("slug", slug);
     formdata.append("avatar", image[0]);
     const { data } = await axios.post(`${url}/category_create`, formdata);
     if (data.success) {
-      console.log("Амжилттай нэмэгдлээ");
+      setVisible(false);
+      setConfirmLoading(false);
       setRefreshKey((old) => old + 1);
-      setName("");
-      setDescription("");
-      setSlug("");
-      setImage(null);
-      setOpened(false);
-      Swal.fire({
-        title: "Амжилттай нэмэгдлээ",
+      new Swal({
         icon: "success",
-      });
-      if (!data.success) {
-        Swal.fire({
-          title: "Амжилтгүй",
-          icon: "error",
-          text: data.result && data.result,
-        });
-      }
-    }
-  }
-  const deleteCategory = async (itemId) => {
-    const { data } = await axios.delete(`${url}/category_delete/${itemId}`);
-    if (data.success) {
-      setRefreshKey((old) => old + 1);
-      Swal.fire({
-        title: "Амжилттай устгалаа",
-        icon: "success",
-      });
-      if (!data.success) {
-        Swal.fire({
-          title: "Амжилтгүй",
-          icon: "error",
-        });
-      }
-    }
-  };
-
-  const editCategory = async (e) => {
-    e.preventDefault();
-    let formdata = new FormData();
-    formdata.append("name", name);
-    formdata.append("description", description);
-    formdata.append("slug", slug);
-    formdata.append("newImage", newImage);
-    newImage
-      ? formdata.append("avatar", image[0])
-      : formdata.append("avatarOld", image);
-    const { data } = await axios.put(
-      `/category_update/${categoryId}`,
-      formdata
-    );
-    if (data.success) {
-      console.log("Амжилтай заслаа");
-      setRefreshKey((old) => +1);
-      setOpened(false);
-      setNewImage("");
-      Swal.fire({
-        title: "Амжилттай заслаа",
-        icon: "success",
+        title: data.result,
       });
     }
     if (!data.success) {
-      Swal.fire({
-        title: "Алдаа гарлаа",
+      setConfirmLoading(false);
+      new Swal({
         icon: "error",
+        title: data.result,
+      });
+    }
+    try {
+    } catch (error) {
+      setConfirmLoading(false);
+      console.log(error);
+      new Swal({
+        icon: "error",
+        title: "Категори үүсгэхэд алдаа гарлаа ",
       });
     }
   };
-  const categoryeditModal = (test) => {
-    setOpened(true);
-    setEdit(true);
-    setName(test.name);
-    setDescription(test.description);
-    setSlug(test.slug);
-    setCategoryId(test._id);
-    setNewImage(false);
+  const deleteCategory = async (categoryId) => {
+    const { data } = await axios.delete(`${url}/category_delete/${categoryId}`);
+    if (data.success) {
+      setRefreshKey((old) => old + 1);
+      Swal.fire({
+        title: "Амжилтай устгалаа",
+        icon: "success",
+      });
+      if (!data.success) {
+        Swal.fire({
+          title: "Амжилтгүй",
+          icon: "error",
+        });
+      }
+    }
   };
   return (
     <div>
@@ -135,19 +96,13 @@ const Category_Table = () => {
                       scope="col"
                       className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                     >
-                      Ангилал нэр
+                      Категори нэр
                     </th>
                     <th
                       scope="col"
                       className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                     >
-                      Ангилал тухай
-                    </th>
-                    <th
-                      scope="col"
-                      className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                    >
-                      Slug
+                      Категори тайлбар
                     </th>
                     <th
                       scope="col"
@@ -169,11 +124,8 @@ const Category_Table = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {row.name}
                       </td>
-                      <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {row.description}
-                      </td>
-                      <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {row.slug}
                       </td>
                       <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                         <img
@@ -195,14 +147,18 @@ const Category_Table = () => {
           </div>
         </div>
       </div>
-      <Modal opened={opened} title="Мэдээлэл нэмэх">
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Категори нэмэх"
+      >
         <div className="flex justify-center">
           <div className="mb-3 xl:w-96">
             <label
               for="exampleText0"
               className="form-label inline-block mb-2 text-gray-700"
             >
-              Ангилалын нэр
+              Категори нэр
             </label>
             <input
               type="text"
@@ -225,7 +181,7 @@ const Category_Table = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
       "
-              placeholder="Ангилалын нэр оруулна уу !"
+              placeholder=" Категори нэр оруулна уу !"
             />
           </div>
         </div>
@@ -235,7 +191,7 @@ const Category_Table = () => {
               for="exampleText0"
               className="form-label inline-block mb-2 text-gray-700"
             >
-              Ангилалын тайлбар
+              Категори тайлбар
             </label>
             <input
               type="text"
@@ -258,40 +214,7 @@ const Category_Table = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
       "
-              placeholder="Ангилалын тайлбар оруулна уу !"
-            />
-          </div>
-        </div>
-        <div className="flex justify-center">
-          <div className="mb-3 xl:w-96">
-            <label
-              for="exampleText0"
-              className="form-label inline-block mb-2 text-gray-700"
-            >
-              Ангилалын slug
-            </label>
-            <input
-              type="text"
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
-              className="
-        form-control
-        block
-        w-full
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-white bg-clip-padding
-        border border-solid border-gray-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-      "
-              placeholder="Ангилалын slug оруулна уу !"
+              placeholder="Категори тайлбар оруулна уу !"
             />
           </div>
         </div>
@@ -334,7 +257,7 @@ const Category_Table = () => {
             />
           </div>
         </div>
-        <div className="flex space-x-2 justify-end">
+        <div className="flex space-x-2 justify-center">
           <button
             type="button"
             className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"

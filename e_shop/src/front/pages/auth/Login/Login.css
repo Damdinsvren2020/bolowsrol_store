@@ -1,0 +1,14 @@
+.LoginContainer {
+  max-width: 1200px;
+  margin: auto;
+}
+.Login {
+  width: 1200px;
+}
+.LoginCardContainer {
+  margin: auto;
+  margin-top: 200px;
+  width: 30%;
+  height: 250px;
+  padding: 10px;
+}

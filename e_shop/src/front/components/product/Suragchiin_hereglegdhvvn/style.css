@@ -1,0 +1,27 @@
+.Suragch {
+  width: 100%;
+  height: 340px;
+  display: flex;
+  gap: 25px;
+}
+.Suragch_card {
+  width: 16%;
+  height: 340px;
+  border-radius: 16px;
+}
+.Suragch_card_img {
+  width: 100%;
+  height: 250px;
+  position: relative;
+}
+.Suragch_card_img img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+.Suragch_card_new {
+  position: absolute;
+  margin-top: -230px;
+  width: 50px;
+}

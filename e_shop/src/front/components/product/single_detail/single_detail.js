@@ -3,7 +3,7 @@ import Qpay from "../../../../assets/qpay.png";
 
 const Single_Detail = () => {
   return (
-    <div>
+    <div className="sticky top-0">
       <div>
         <h2>Хямдарсан үнэ</h2>
       </div>

@@ -1,0 +1,19 @@
+.belencontainer {
+  width: 100%;
+  height: 250px;
+}
+.belencards {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  gap: 20px;
+}
+.belencard {
+  width: 100%;
+  height: 250px;
+}
+.belencard img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}

@@ -40,6 +40,15 @@ exports.login = async (req, res, next) => {
   }
 };
 
+exports.getUsers = async (req, res, next) => {
+  const users = await User.find(req.query);
+  res.status(200).json({
+    success: true,
+    data: users,
+    users,
+  });
+};
+
 exports.auth = async (req, res, next) => {
   if (!req.headers.authorization) {
     throw new EshopError(
@@ -48,7 +57,6 @@ exports.auth = async (req, res, next) => {
     );
   }
   const token = req.headers.authorization.split(" ")[1];
-
   if (!token) {
     throw new EshopError("Токен байхгүй байна.", 400);
   }
