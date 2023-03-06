@@ -20,7 +20,8 @@ exports.getSubCategory = catchAsync(async (req, res) => {
 exports.createSubCategory = catchAsync(async (req, res, next) => {
   try {
     const { SubCategoryName, SubCategoryDescription, categoryId } = req.body;
-    const { avatar } = req.file;
+    console.log(req.body);
+    const { avatar } = req.files;
     const subcategory_image = new SubCategory({
       avatar: avatar[0].path,
       SubCategoryName: SubCategoryName,

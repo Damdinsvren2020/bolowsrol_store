@@ -13,6 +13,7 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
+  console.log("user", req.body);
   if (!email || !password) {
     return res.json({
       success: false,
@@ -47,6 +48,21 @@ exports.getUsers = async (req, res, next) => {
     data: users,
     users,
   });
+};
+
+exports.singleUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const findSingleUser = await User.findById(id);
+    if (findSingleUser) {
+      res.json({
+        success: true,
+        result: findSingleUser,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.auth = async (req, res, next) => {
